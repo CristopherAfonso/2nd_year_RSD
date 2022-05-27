@@ -17,7 +17,7 @@ class ClientConnection {
   void stop();
     
  private:  
-  bool ok; // This variable is a flag that avois that the
+  bool ok; // This variable is a flag that avoid that the
 	         // server listens if initialization errors occured.
        
   FILE *fd;	// C file descriptor. We use it to buffer the
