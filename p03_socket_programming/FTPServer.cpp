@@ -29,18 +29,31 @@
 #include "ClientConnection.h"
 
 
-int define_socket_TCP(int port) {
-  // Include the code for defining the socket.
-  
-  
-  return -1;
+int define_socket_TCP(int port) { // Include the code for defining the socket.
+  struct sockaddr_in sin; 
+  int s; // this is our socket descriptor
+
+  s = socket (AF_INET, SOCK_STREAM, 0);
+  if (s < 0) errexit("Cannot create socket: %s\n", strerror(errno));
+
+  memset (&sin, 0, sizeof(sin)); // we clean the whole struct
+  sin.sin_family = AF_INET; // the family socket is the family of protocols of internet
+  sin.sin_addr.s_addr = INADDR_ANY; // we accept any address to connect
+  sin.sin_port = htons(port); // we convert the port from host format to net format
+  // we link a struct with a socket with function bind()
+  if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) < 0) 
+    errexit("Cannot bind with port: %s\n", strerror(errno));
+
+  // we set the maximun number of conection at the same time
+  if (listen(s, 5) < 0) errexit("Error with listen: %s\n", strerror(errno));
+
+  return s; // we return the socket descriptor to use it in the future
 }
 
 // This function is executed when the thread is executed.
 void* run_client_connection(void *c) {
   ClientConnection *connection = (ClientConnection *)c;
   connection->WaitForRequests();
-  
   return NULL;
 }
 

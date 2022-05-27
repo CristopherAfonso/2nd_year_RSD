@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri May 27 11:25:30 2022
+# Make data base, printed on Fri May 27 16:26:02 2022
 
 # Variables
 
@@ -19,7 +19,7 @@ GTK_RC_FILES = /etc/gtk/gtkrc:/home/themaster/.gtkrc:/home/themaster/.config/gtk
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-0806460f-609c-4c7f-9f43-adb5f5bbdb2f.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-26b5fe22-37a5-4449-9434-15729df3b064.sock
 # environment
 LC_NAME = es_ES.UTF-8
 # environment
@@ -83,7 +83,7 @@ PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXX2ZP4Bl/agent.1582
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXnEO7Cf/agent.1586
 # default
 .SHELLFLAGS := -c
 # environment
@@ -103,7 +103,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2338
+VSCODE_PID = 2333
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -111,7 +111,7 @@ XDG_SESSION_TYPE = x11
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/Fenix:@/tmp/.ICE-unix/1987,unix/Fenix:/tmp/.ICE-unix/1987
+SESSION_MANAGER = local/Fenix:@/tmp/.ICE-unix/1985,unix/Fenix:/tmp/.ICE-unix/1985
 # automatic
 *F = $(notdir $*)
 # environment
@@ -197,7 +197,7 @@ XDG_VTNR = 1
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 1517
+SYSTEMD_EXEC_PID = 1522
 # environment
 DISPLAY = :0
 # environment
@@ -217,7 +217,7 @@ SNAP_CONTEXT = PRfI_RZqYwhKj3mP-CADXCuVtfLvYgvOIXS8l7Y4HEnDH1jX_1JB
 # environment
 LC_MEASUREMENT = es_ES.UTF-8
 # environment
-SSH_AGENT_PID = 1682
+SSH_AGENT_PID = 1679
 # environment
 _ = /snap/code/97/usr/share/code/code
 # environment
@@ -303,14 +303,14 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # Not a target:
 FTPServer.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-27 00:01:58.662236118
+#  Last modified 2022-05-27 15:20:01.681468772
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 ClientConnection.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-26 23:59:39.813181843
+#  Last modified 2022-05-27 15:04:13.882663606
 #  File has been updated.
 #  Successfully updated.
 
@@ -397,6 +397,6 @@ ftp_server.cpp:
 # strcache performance: lookups = 30 / hit rate = 43%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=0/30=0%
-# Finished Make data base on Fri May 27 11:25:30 2022
+# Finished Make data base on Fri May 27 16:26:02 2022
 
  
