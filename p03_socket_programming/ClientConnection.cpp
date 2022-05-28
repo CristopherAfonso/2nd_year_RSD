@@ -59,10 +59,8 @@ ClientConnection::~ClientConnection() {
 	close(control_socket); 
 }
 
-int connect_TCP(uint32_t address, uint16_t port) {
-  // Implement your code to define a socket here
+int connect_TCP(uint32_t address, uint16_t port) { // Implement your code to define a socket here
   struct sockaddr_in sin;
-  struct hostent *hent;
   int s; // this will be our socket descriptor
 
   memset(&sin, 0, sizeof(sin)); // we clean the struct sin
@@ -70,19 +68,7 @@ int connect_TCP(uint32_t address, uint16_t port) {
   sin.sin_port = htons(port); // we convert port to host format from net format
 
   // we give the address client to struct sin, address could be directly a IP address
-  sin.sin_addr.s_addr = address;
-
-  // we convert address to char* to be given to function gethostbyname()
-  char const *ptr_char_address = (std::to_string(address)).c_str();
-  
-  // we store the IP address of client with the DNS protocol
-  hent = gethostbyname(ptr_char_address);
-
-  if (hent) // if hent != NULL we copy the IP address in hent->h_addr to the struct sin
-    memcpy(&sin.sin_addr, hent->h_addr, hent->h_length);
-  else if ((sin.sin_addr.s_addr = inet_addr((char*)ptr_char_address)) == INADDR_NONE)
-    errexit("Cannot solve the name \"%s\"\n", ptr_char_address);
-
+  sin.sin_addr.s_addr = htonl(address);
   s = socket(AF_INET, SOCK_STREAM, 0);
   if (s < 0)
     errexit("Cannot create the socket: %s\n", strerror(errno));
@@ -107,9 +93,7 @@ void ClientConnection::stop() {
 // If you think that you have to add other commands feel free to do so. You 
 // are allowed to add auxiliary methods if necessary.
 void ClientConnection::WaitForRequests() {
-  if (!ok) {
-	  return;
-  }
+  if (!ok) return;
   fprintf(fd, "220 Service ready\n");
   while (!parar) {
     fscanf(fd, "%s", command);
@@ -151,30 +135,34 @@ void ClientConnection::WaitForRequests() {
     }
     else if (COMMAND("PASV")) { // To be implemented by students
       int s{-1}; // this is our socket in this command
-      int soc_name{-1};
-      struct sockaddr_in address;
+      sockaddr_in address;
       socklen_t address_len{sizeof(address)};
-      uint16_t port = address.sin_port; // we get the ports used for the communication
-      uint8_t p1 = port;
-      uint8_t p2 = port >> 8;
 
       // if the argument of define_socket_TCP is zero, the S.O will set a
       // random socket descriptor
       s = define_socket_TCP(0);
+      
       // returns the current address to which the socket s is bound
-      soc_name = getsockname(s, reinterpret_cast<sockaddr*>(&address), &address_len);
-      fprintf(fd, "227 Entering passive mode (127,0,0,1,%d,%d)\n", p1, p2);
+      getsockname(s, (sockaddr*)&address, &address_len);
+      
+      uint16_t port = address.sin_port; // we get the ports used for the communication
+      int p1 = port >> 8;
+      int p2 = port&0xFF;
+
+      fprintf(fd, "227 Entering passive mode (127,0,0,1,%d,%d)\n", p2, p1);
       fflush(fd); // forces a write of all user-space buffered data for the given output
-      data_socket = accept(s, reinterpret_cast<sockaddr*>(&address), &address_len);
+      data_socket = accept(s, (sockaddr*)&address, &address_len);
     }
     else if (COMMAND("STOR") ) { // To be implemented by students
-	    FILE* file = fopen(arg, "wb");
-
-      if (file == nullptr) fprintf(fd, "File empty\n");
+	    fscanf(fd, "%s", arg);
+      FILE* file = fopen(arg, "wb");
+      if (!file) {
+        fprintf(fd, "450 Requested file action not taken.\n");
+        close(data_socket);
+      }
       else {
-        int data_written{0};
-        int bytes_received{0};
-        char buffer[1024];
+        size_t bytes_received{0};
+        char buffer[MAX_BUFF];
 
         fprintf(fd, "150 File status okay; about to open data conection\n");
         fflush(fd);
@@ -182,13 +170,8 @@ void ClientConnection::WaitForRequests() {
           bytes_received = recv(data_socket, buffer, sizeof(buffer), 0);
           // writes bytes_received items of data, each size of 1 bytes long,  to  the
           // stream pointed to by file, obtaining them from the location given by buffer.
-          data_written = fwrite(buffer, 1, bytes_received, file);
-          if (data_written <= 0) {
-            fprintf(fd, "fatal error with function fwrite()\n");
-            fflush(fd);
-            break;
-          }
-        } while (bytes_received == 1024);
+          fwrite(buffer, 1, bytes_received, file);
+        } while (bytes_received != 0);
         fprintf(fd, "226 Closing data connection\n");
         fflush(fd);
         close(data_socket);
@@ -196,51 +179,46 @@ void ClientConnection::WaitForRequests() {
       }
     }
     else if (COMMAND("RETR")) { // To be implemented by students
-	    FILE* file = fopen(arg, "r");
-
+	    FILE* file = fopen(arg, "rb");
       fscanf(fd, "%s", arg);
-      if (file == nullptr) fprintf(fd, "File empty\n");
+      printf("RETR: %s\n", arg);
+      if (file == NULL) {
+        fprintf(fd, "550 Requested action not taken\n");
+        fflush(fd);
+      }
       else {
         int data_read{0};
-        char buffer[1024];
+        char buffer[MAX_BUFF];
 
         fprintf(fd, "150 File status okay; about to open data connection\n");
+        fflush(fd);
         do {
           // reads sizeof(buffer) items of data, each 1 bytes long, from the
           // stream pointed to by file, storing them at the location given by buffer.
           data_read = fread(buffer, 1, sizeof(buffer), file);
           send(data_socket, buffer, data_read, 0);
-        } while (data_read == 1024);
+        } while (data_read == MAX_BUFF);
         fprintf(fd, "226 Closing data connection\n");
+        fflush(fd);
         close(data_socket);
         fclose(file);
       }
     }
     else if (COMMAND("LIST")) { // To be implemented by students
-	  	char directory[1024];
       struct dirent *entry;
-      DIR *mydir;
-      FILE *data = fdopen(data_socket, "a+");
+      DIR *mydir = opendir(".");
 
-      getcwd(directory, sizeof(directory));
-      mydir = opendir(directory);
-      if (mydir == NULL) {
-        fprintf(fd, "450 Requested file action not taken\n");
-        fflush(fd);
-        exit(EXIT_FAILURE);
-      }
-      fprintf(fd, "125 Data connection already open; transfer starting\n");
-      fflush(fd);
-      while ((entry = readdir(mydir)) != NULL) {
-        if (entry->d_name[0] != '.') {
-          fprintf(data, "%s \n", entry->d_name);
-          fflush(data);
+      if (mydir != NULL) {
+        fprintf(fd, "125 Data connection already open; transfer starting\n");
+        while (entry = readdir(mydir)) {
+          std::string buffer = entry->d_name;
+          buffer += "\x0D\x0A";
+          send(data_socket, buffer.c_str(), buffer.size(), 0);
         }
+        close(data_socket);
+        closedir(mydir);
+        fprintf(fd, "250 Request file action okay, completed\n");
       }
-      fclose(data);
-      fprintf(fd, "250 Request file action okay, completed\n");
-      fflush(fd);
-      closedir(mydir);
     }
     else if (COMMAND("SYST")) {
       fprintf(fd, "215 UNIX Type: L8.\n");   
@@ -256,7 +234,8 @@ void ClientConnection::WaitForRequests() {
       break;
     }
     else  {
-	    fprintf(fd, "502 Command not implemented.\n"); fflush(fd);
+	    fprintf(fd, "502 Command not implemented.\n"); 
+      fflush(fd);
 	    printf("Comando : %s %s\n", command, arg);
 	    printf("Error interno del servidor\n");
     }

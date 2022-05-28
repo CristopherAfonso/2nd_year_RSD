@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri May 27 16:26:02 2022
+# Make data base, printed on Sat May 28 12:27:33 2022
 
 # Variables
 
@@ -19,7 +19,7 @@ GTK_RC_FILES = /etc/gtk/gtkrc:/home/themaster/.gtkrc:/home/themaster/.config/gtk
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-26b5fe22-37a5-4449-9434-15729df3b064.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-588af7fb-a255-45ef-80e6-2d58d584c9c6.sock
 # environment
 LC_NAME = es_ES.UTF-8
 # environment
@@ -83,7 +83,7 @@ PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXnEO7Cf/agent.1586
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXoycNWn/agent.1570
 # default
 .SHELLFLAGS := -c
 # environment
@@ -103,7 +103,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2333
+VSCODE_PID = 2318
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -111,7 +111,7 @@ XDG_SESSION_TYPE = x11
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/Fenix:@/tmp/.ICE-unix/1985,unix/Fenix:/tmp/.ICE-unix/1985
+SESSION_MANAGER = local/Fenix:@/tmp/.ICE-unix/1975,unix/Fenix:/tmp/.ICE-unix/1975
 # automatic
 *F = $(notdir $*)
 # environment
@@ -197,7 +197,7 @@ XDG_VTNR = 1
 # makefile
 .DEFAULT_GOAL := all
 # environment
-SYSTEMD_EXEC_PID = 1522
+SYSTEMD_EXEC_PID = 1510
 # environment
 DISPLAY = :0
 # environment
@@ -217,7 +217,7 @@ SNAP_CONTEXT = PRfI_RZqYwhKj3mP-CADXCuVtfLvYgvOIXS8l7Y4HEnDH1jX_1JB
 # environment
 LC_MEASUREMENT = es_ES.UTF-8
 # environment
-SSH_AGENT_PID = 1679
+SSH_AGENT_PID = 1674
 # environment
 _ = /snap/code/97/usr/share/code/code
 # environment
@@ -277,8 +277,8 @@ KDE_FULL_SESSION = true
 # environment
 SNAP_USER_DATA = /home/themaster/snap/code/97
 # environment
-LC_IDENTIFICATION = es_ES.UTF-8
  
+LC_IDENTIFICATION = es_ES.UTF-8
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
@@ -290,9 +290,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# . (device 2051, inode 542770): 10 files, no impossibilities.
+# . (device 2051, inode 542770): 11 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -303,14 +303,14 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # Not a target:
 FTPServer.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-27 15:20:01.681468772
+#  Last modified 2022-05-27 16:36:38.947361692
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 ClientConnection.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-27 15:04:13.882663606
+#  Last modified 2022-05-28 00:11:15.489243643
 #  File has been updated.
 #  Successfully updated.
 
@@ -324,7 +324,7 @@ Makefile:
 ftp_server: ClientConnection.cpp FTPServer.cpp ftp_server.cpp
 #  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2022-05-28 00:00:35.483079725
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
@@ -340,7 +340,7 @@ ftp_server: ClientConnection.cpp FTPServer.cpp ftp_server.cpp
 # automatic
 # ^ := ClientConnection.cpp FTPServer.cpp ftp_server.cpp
 # automatic
-# ? := ClientConnection.cpp FTPServer.cpp ftp_server.cpp
+# ? := ClientConnection.cpp
 # automatic
 # | := 
 # variable set hash-table stats:
@@ -394,9 +394,9 @@ ftp_server.cpp:
 # strcache buffers: 1 (0) / strings = 17 / storage = 184 B / avg = 10 B
 # current buf: size = 8162 B / used = 184 B / count = 17 / avg = 10 B
 
-# strcache performance: lookups = 30 / hit rate = 43%
+# strcache performance: lookups = 31 / hit rate = 45%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=0/30=0%
-# Finished Make data base on Fri May 27 16:26:02 2022
+# Load=17/8192=0%, Rehash=0, Collisions=0/31=0%
+# Finished Make data base on Sat May 28 12:27:33 2022
 
  
